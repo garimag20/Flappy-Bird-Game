@@ -16,6 +16,33 @@ PLAYER = 'Gallery/Sprites/bird.png'
 BACKGROUND = 'Gallery/Sprites/bg.png'
 PIPE = 'Gallery/Sprites/pipe.png'
 
+def welcomeScreen():
+    """
+        Shows welcome images on the screen
+    """
+    playerx = int(SCREENWIDTH/5)
+    playery = int((SCREENHEIGHT - GAME_SPRITES['player'].get_height())/2.5)
+    messagex = int((SCREENWIDTH - GAME_SPRITES['message'].get_height())/18)
+    messagey = int(SCREENHEIGHT*0.01)
+    basex = 0
+    while True:
+        for event in pygame.event.get():
+            #if user cicks on cross button, close game
+            if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
+                pygame.quit()
+                sys.exit()
+
+            #if user presses space or up key, start game
+            elif event.type== KEYDOWN and (event.key == K_SPACE or event.key == K_UP):
+                return
+            else:
+                SCREEN.blit(GAME_SPRITES['background'], (0,0))
+                SCREEN.blit(GAME_SPRITES['player'], (playerx, playery))
+                SCREEN.blit(GAME_SPRITES['message'], (messagex, messagey))
+                SCREEN.blit(GAME_SPRITES['base'], (basex, GROUNDY))
+                pygame.display.update()
+                FPSCLOCK.tick(FPS)
+
 #Main function from where game starts
 if __name__ == "__main__":
     pygame.init() #To initialize all pygame's module
@@ -31,13 +58,13 @@ if __name__ == "__main__":
         pygame.image.load('Gallery/Sprites/6.png').convert_alpha(),
         pygame.image.load('Gallery/Sprites/7.png').convert_alpha(),
         pygame.image.load('Gallery/Sprites/8.png').convert_alpha(),
-        pygame.image.load('Gallery/Sprites/9.png').convert_alpha()
-        
+        pygame.image.load('Gallery/Sprites/9.png').convert_alpha() 
     )
+
+    GAME_SPRITES['message'] = pygame.image.load('Gallery/Sprites/message.png').convert_alpha()
 
     GAME_SPRITES['base'] = pygame.image.load('Gallery/Sprites/base.png').convert_alpha()
     GAME_SPRITES['pipe'] = (
-        pygame.image.load('Gallery/Sprites/0.png').convert_alpha(),
         pygame.transform.rotate(pygame.image.load(PIPE).convert_alpha(), 180),
         pygame.image.load(PIPE).convert_alpha()
     )
@@ -55,3 +82,4 @@ if __name__ == "__main__":
     while True:
         welcomeScreen()
         mainGame() #This is main game function
+ 
